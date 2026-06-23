@@ -44,3 +44,21 @@ This file contains the core context, architectural boundaries, and guidelines fo
 * **Payments:** Display price + external payment link only. Full MoMo integration deferred.
 * **Event Media:** Single banner image for v1. Gallery + video deferred.
 * **Event Ingestion:** Manual wizard + CSV bulk import. Public API deferred.
+
+## 6. CI/CD & Operations Rules
+* **Pre-commit Hooks:** Always run `pre-commit run --all-files` locally and explicitly stage/commit any files that are auto-fixed by hooks (like `ruff`, `end-of-file-fixer`, `trailing-whitespace`) before pushing.
+* **Pytest Discovery & Coverage:**
+  * Always ensure new test files are discoverable by configuring `python_files` in `pyproject.toml` (e.g., to include `tests.py`).
+  * Never leave a test suite completely empty as Pytest will exit with code 5, failing the CI.
+  * Ensure scaffolding and config files (`manage.py`, `asgi.py`, `settings/*`) are excluded from coverage calculations to prevent false-positive coverage drops.
+* **GitHub Actions:** Do not use `paths` filters on `pull_request` triggers if branch protection mandates those status checks to pass. This causes PRs (like those from Dependabot) to hang indefinitely in a "Pending" state if they modify unfiltered files.
+* **Branch Discipline:** Never commit directly to `main` or `develop` (which triggers the `no-commit-to-branch` pre-commit hook failure). Always create a feature or chore branch and open a PR.
+
+## 6. CI/CD & Operations Rules
+* **Pre-commit Hooks:** Always run `pre-commit run --all-files` locally and explicitly stage/commit any files that are auto-fixed by hooks (like `ruff`, `end-of-file-fixer`, `trailing-whitespace`) before pushing.
+* **Pytest Discovery & Coverage:**
+  * Always ensure new test files are discoverable by configuring `python_files` in `pyproject.toml` (e.g., to include `tests.py`).
+  * Never leave a test suite completely empty as Pytest will exit with code 5, failing the CI.
+  * Ensure scaffolding and config files (`manage.py`, `asgi.py`, `settings/*`) are excluded from coverage calculations to prevent false-positive coverage drops.
+* **GitHub Actions:** Do not use `paths` filters on `pull_request` triggers if branch protection mandates those status checks to pass. This causes PRs (like those from Dependabot) to hang indefinitely in a "Pending" state if they modify unfiltered files.
+* **Branch Discipline:** Never commit directly to `main` or `develop` (which triggers the `no-commit-to-branch` pre-commit hook failure). Always create a feature or chore branch and open a PR.
