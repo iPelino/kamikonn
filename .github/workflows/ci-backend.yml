@@ -32,7 +32,7 @@ jobs:
 
       - name: Install dependencies
         working-directory: backend
-        run: uv sync --frozen
+        run: uv sync --all-extras --frozen
 
       - name: Run Ruff linter
         working-directory: backend
@@ -96,7 +96,7 @@ jobs:
 
       - name: Install dependencies
         working-directory: backend
-        run: uv sync --frozen
+        run: uv sync --all-extras --frozen
 
       - name: Run migrations
         working-directory: backend
