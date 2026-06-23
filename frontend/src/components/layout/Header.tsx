@@ -22,7 +22,7 @@ export default function Header() {
             </Link>
           </nav>
         </div>
-        
+
         <div className="flex flex-1 items-center justify-end space-x-4">
           <div className="hidden md:flex md:space-x-4">
             <Button variant="ghost" asChild className="text-sage hover:text-forest hover:bg-sage">

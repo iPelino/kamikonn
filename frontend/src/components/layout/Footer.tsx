@@ -13,13 +13,13 @@ export default function Footer() {
             Connecting Rwanda's academic ecosystem.
           </p>
         </div>
-        
+
         <div className="flex gap-4 text-sm font-medium">
           <Link to="/about" className="hover:text-amber">About</Link>
           <Link to="/contact" className="hover:text-amber">Contact</Link>
           <Link to="/privacy" className="hover:text-amber">Privacy</Link>
         </div>
-        
+
         <p className="text-sm text-sage/60">
           © {new Date().getFullYear()} KamiKonn. All rights reserved.
         </p>

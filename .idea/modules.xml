@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/kamconnect.iml" filepath="$PROJECT_DIR$/.idea/kamconnect.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/kamikonn-backend.iml" filepath="$PROJECT_DIR$/.idea/kamikonn-backend.iml" />
     </modules>
   </component>
 </project>

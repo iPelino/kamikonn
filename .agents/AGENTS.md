@@ -28,7 +28,7 @@ This file contains the core context, architectural boundaries, and guidelines fo
 * **Theme:** Light + Dark mode with system preference toggle
 
 ## 3. Workflow & Guidelines
-* **Structure:** `backend/` contains Django project; `frontend/` contains React app. 
+* **Structure:** `backend/` contains Django project; `frontend/` contains React app.
 * **UI/UX:** Always adhere to `kamikonn_brand_identity.md` for styling and color palettes.
 * **Testing:** pytest + factory-boy (backend), Vitest + React Testing Library (frontend), Playwright E2E (Phase 3+).
 * **Docker:** Ensure new services are added to `docker-compose.yml`.
