@@ -1,4 +1,6 @@
-from .base import *
+from decouple import Csv, config
+
+from .base import *  # noqa: F403
 
 DEBUG = config('DJANGO_DEBUG', default=True, cast=bool)
 
@@ -18,7 +20,7 @@ DATABASES = {
 }
 
 # CORS
-CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED_ORIGINS', default='http://localhost:5173,http://127.0.0.1:5173', cast=Csv())
+CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED_ORIGINS', default='http://localhost:5173,http://127.0.0.1:5173', cast=Csv())  # noqa: E501
 CORS_ALLOW_CREDENTIALS = True
 
 # Email

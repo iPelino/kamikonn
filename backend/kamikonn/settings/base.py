@@ -1,16 +1,16 @@
 """
 Base settings for kamikonn project.
 """
-import os
 from pathlib import Path
-from decouple import config, Csv
+
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 # Point to the backend folder (two levels up from settings/base.py)
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 # Quick-start development settings - unsuitable for production
-SECRET_KEY = config('DJANGO_SECRET_KEY', default='django-insecure-1ji4y4w$=(icf98+9i7=d9^b3hpx%w#c3n3t5a*rj^u6rrd#b6')
+SECRET_KEY = config('DJANGO_SECRET_KEY', default='django-insecure-1ji4y4w$=(icf98+9i7=d9^b3hpx%w#c3n3t5a*rj^u6rrd#b6')  # noqa: E501
 
 # Application definition
 INSTALLED_APPS = [
@@ -20,7 +20,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
+
     # Third party apps
     'rest_framework',
     'rest_framework_simplejwt',
@@ -28,7 +28,7 @@ INSTALLED_APPS = [
     'django_filters',
     'drf_spectacular',
     'django_extensions',
-    
+
     # Local apps
     'apps.core',
     'apps.accounts',
