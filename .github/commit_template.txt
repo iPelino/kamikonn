@@ -1,0 +1,18 @@
+# KamiKonn Git Commit Message Template
+#
+# Format: <type>(<scope>): <subject>
+#
+# Types: feat | fix | docs | style | refactor | test | chore | perf
+# Scopes: auth | events | universities | rsvp | search | frontend | backend | ci | deps
+#
+# Example:
+#   feat(events): add full-text search endpoint
+#
+# ---- BODY (optional, explain WHY not WHAT) ----
+
+
+# ---- FOOTER (issue closing - REQUIRED if this commit resolves an issue) ----
+# Use ONE of: Closes #N | Fixes #N | Resolves #N
+# For multiple issues: one per line
+#
+# Closes #
