@@ -9,6 +9,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import apiClient from '@/api/client';
 import { useAuthStore } from '@/stores/authStore';
 import type { User } from '@/types/auth';
+import { GoogleAuthButton } from '../components/GoogleAuthButton';
 
 const loginSchema = z.object({
   email: z.string().email({ message: 'Invalid email address' }),
@@ -109,6 +110,17 @@ export default function LoginPage() {
             <Button type="submit" className="w-full bg-forest hover:bg-forest/90" disabled={isLoading}>
               {isLoading ? 'Signing in...' : 'Sign In'}
             </Button>
+            <div className="relative my-4">
+              <div className="absolute inset-0 flex items-center">
+                <span className="w-full border-t" />
+              </div>
+              <div className="relative flex justify-center text-xs uppercase">
+                <span className="bg-background px-2 text-muted-foreground">
+                  Or continue with
+                </span>
+              </div>
+            </div>
+            <GoogleAuthButton onError={(msg) => setError(msg)} />
           </form>
         </CardContent>
         <CardFooter className="flex flex-col space-y-2 text-center text-sm text-muted-foreground">
