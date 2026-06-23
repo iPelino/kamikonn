@@ -1,0 +1,26 @@
+# CODEOWNERS
+# Each line maps a path pattern to one or more owners.
+# Owners are automatically requested for review when a PR touches their paths.
+# The LAST matching rule takes precedence.
+
+# Default: all changes require review from a core maintainer
+* @iPelino
+
+# Security-sensitive files always require maintainer sign-off
+SECURITY.md @iPelino
+.github/workflows/ @iPelino
+.github/dependabot.yml @iPelino
+docker-compose.yml @iPelino
+nginx/ @iPelino
+backend/kamikonn/settings/ @iPelino
+
+# Backend
+backend/ @iPelino
+
+# Frontend
+frontend/ @iPelino
+
+# Infrastructure & CI
+Dockerfile @iPelino
+.github/ @iPelino
+Makefile @iPelino

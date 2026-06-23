@@ -1,0 +1,67 @@
+name: Feature Request
+description: Suggest an idea or enhancement
+labels: ["enhancement", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before submitting, please search existing issues to avoid duplicates. For major features, consider opening a Discussion first.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem statement
+      description: What problem does this feature solve? Describe the use case.
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution
+      description: Describe what you would like to happen.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Describe any alternative solutions or features you have considered.
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Backend / API
+        - Frontend / UI
+        - Authentication
+        - Event Discovery
+        - University Management
+        - Notifications
+        - Infrastructure
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority (your assessment)
+      options:
+        - Low -- nice to have
+        - Medium -- improves core workflow
+        - High -- blocking or critical
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Pre-submission checklist
+      options:
+        - label: I searched existing issues and discussions and this is not a duplicate.
+          required: true
+        - label: This aligns with the project scope (academic event discovery for Kigali universities).
+          required: true
