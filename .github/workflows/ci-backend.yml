@@ -8,9 +8,6 @@ on:
       - ".github/workflows/ci-backend.yml"
   pull_request:
     branches: [main, develop]
-    paths:
-      - "backend/**"
-      - ".github/workflows/ci-backend.yml"
 
 permissions:
   contents: read
