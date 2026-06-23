@@ -49,3 +49,14 @@ ignore = []
 DJANGO_SETTINGS_MODULE = "kamikonn.settings.test"
 python_files = ["test_*.py", "*_tests.py", "tests.py"]
 addopts = "--nomigrations --reuse-db"
+
+[tool.coverage.run]
+omit = [
+    "manage.py",
+    "kamikonn/asgi.py",
+    "kamikonn/wsgi.py",
+    "kamikonn/settings/*",
+    "kamikonn/urls.py",
+    "*/migrations/*",
+    "*/urls.py",
+]
