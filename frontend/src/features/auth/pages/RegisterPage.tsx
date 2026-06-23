@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import apiClient from '@/api/client';
+import { GoogleAuthButton } from '../components/GoogleAuthButton';
 
 const registerSchema = z.object({
   first_name: z.string().min(2, { message: 'First name is required' }),
@@ -149,6 +150,17 @@ export default function RegisterPage() {
             <Button type="submit" className="w-full bg-forest hover:bg-forest/90" disabled={isLoading}>
               {isLoading ? 'Creating account...' : 'Create Account'}
             </Button>
+            <div className="relative my-4">
+              <div className="absolute inset-0 flex items-center">
+                <span className="w-full border-t" />
+              </div>
+              <div className="relative flex justify-center text-xs uppercase">
+                <span className="bg-background px-2 text-muted-foreground">
+                  Or sign up with
+                </span>
+              </div>
+            </div>
+            <GoogleAuthButton buttonText="Sign up with Google" onError={(msg) => setError(msg)} />
           </form>
         </CardContent>
         <CardFooter className="flex flex-col space-y-2 text-center text-sm text-muted-foreground">
