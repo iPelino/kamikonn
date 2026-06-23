@@ -1,0 +1,10 @@
+# Planning and internal documentation -- never push to GitHub
+planning_docs/
+
+# OS
+.DS_Store
+
+# IDE
+.idea/
+.jbeval/
+*.iml
