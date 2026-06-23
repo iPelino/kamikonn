@@ -1,5 +1,7 @@
 import { Link } from 'react-router';
-import { Button } from '@/components/ui/button';
+import { buttonVariants } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
+import { ModeToggle } from '@/components/mode-toggle';
 import MobileNav from './MobileNav';
 
 export default function Header() {
@@ -25,13 +27,14 @@ export default function Header() {
 
         <div className="flex flex-1 items-center justify-end space-x-4">
           <div className="hidden md:flex md:space-x-4">
-            <Button variant="ghost" asChild className="text-sage hover:text-forest hover:bg-sage">
-              <Link to="/login">Log in</Link>
-            </Button>
-            <Button className="bg-amber text-forest hover:bg-amber/90" asChild>
-              <Link to="/register">Sign up</Link>
-            </Button>
+            <Link to="/login" className={cn(buttonVariants({ variant: "ghost" }), "text-sage hover:text-forest hover:bg-sage")}>
+              Log in
+            </Link>
+            <Link to="/register" className={cn(buttonVariants({ variant: "default" }), "bg-amber text-forest hover:bg-amber/90")}>
+              Sign up
+            </Link>
           </div>
+          <ModeToggle />
           <MobileNav />
         </div>
       </div>
