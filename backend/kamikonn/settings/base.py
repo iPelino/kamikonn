@@ -32,6 +32,14 @@ INSTALLED_APPS = [
     "django_filters",
     "drf_spectacular",
     "django_extensions",
+    "rest_framework.authtoken",
+    "dj_rest_auth",
+    "dj_rest_auth.registration",
+    "django.contrib.sites",
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "allauth.socialaccount.providers.google",
     # Local apps
     "apps.core",
     "apps.accounts",
@@ -52,7 +60,10 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
 ]
+
+SITE_ID = 1
 
 ROOT_URLCONF = "kamikonn.urls"
 
@@ -117,4 +128,36 @@ SPECTACULAR_SETTINGS = {
     "DESCRIPTION": "Cross-university academic event discovery platform",
     "VERSION": "1.0.0",
     "SERVE_INCLUDE_SCHEMA": False,
+}
+
+# dj-rest-auth / allauth settings
+REST_AUTH = {
+    "USE_JWT": True,
+    "JWT_AUTH_COOKIE": "kamikonn-auth",
+    "JWT_AUTH_REFRESH_COOKIE": "kamikonn-refresh",
+    "USER_DETAILS_SERIALIZER": "apps.accounts.serializers.UserSerializer",
+}
+
+ACCOUNT_LOGIN_METHODS = {"email"}
+ACCOUNT_SIGNUP_FIELDS = ["email*", "password1*", "password2*"]
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_EMAIL_VERIFICATION = "none"  # Will be implemented in #49
+
+SOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True
+
+SOCIALACCOUNT_PROVIDERS = {
+    "google": {
+        "APP": {
+            "client_id": config("GOOGLE_OAUTH_CLIENT_ID", default=""),
+            "secret": config("GOOGLE_OAUTH_CLIENT_SECRET", default=""),
+            "key": "",
+        },
+        "SCOPE": [
+            "profile",
+            "email",
+        ],
+        "AUTH_PARAMS": {
+            "access_type": "online",
+        },
+    }
 }
