@@ -1,6 +1,8 @@
 import { Routes, Route } from 'react-router';
 import PageContainer from './components/layout/PageContainer';
 import { Button } from '@/components/ui/button';
+import LoginPage from './features/auth/pages/LoginPage';
+import RegisterPage from './features/auth/pages/RegisterPage';
 
 // Placeholder Home component
 function Home() {
@@ -29,7 +31,8 @@ function App() {
     <PageContainer>
       <Routes>
         <Route path="/" element={<Home />} />
-        {/* Other routes will be added here */}
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
       </Routes>
     </PageContainer>
   );

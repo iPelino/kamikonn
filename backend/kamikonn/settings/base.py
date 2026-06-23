@@ -2,6 +2,7 @@
 Base settings for kamikonn project.
 """
 
+from datetime import timedelta
 from pathlib import Path
 
 from decouple import config
@@ -32,6 +33,7 @@ INSTALLED_APPS = [
     "django_filters",
     "drf_spectacular",
     "django_extensions",
+    "rest_framework_simplejwt.token_blacklist",
     # Local apps
     "apps.core",
     "apps.accounts",
@@ -117,4 +119,14 @@ SPECTACULAR_SETTINGS = {
     "DESCRIPTION": "Cross-university academic event discovery platform",
     "VERSION": "1.0.0",
     "SERVE_INCLUDE_SCHEMA": False,
+}
+
+# Simple JWT
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
+    "ROTATE_REFRESH_TOKENS": True,
+    "BLACKLIST_AFTER_ROTATION": True,
+    "AUTH_HEADER_TYPES": ("Bearer",),
 }
