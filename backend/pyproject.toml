@@ -47,5 +47,5 @@ ignore = []
 
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "kamikonn.settings.test"
-python_files = ["test_*.py", "*_tests.py"]
+python_files = ["test_*.py", "*_tests.py", "tests.py"]
 addopts = "--nomigrations --reuse-db"
