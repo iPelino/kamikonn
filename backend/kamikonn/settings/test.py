@@ -8,7 +8,10 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "kamikonn_test",
+        "USER": "kamikonn_user",
+        "PASSWORD": "kamikonn_password",  # pragma: allowlist secret
         "HOST": "localhost",
+        "PORT": "5432",
     }
 }
 
