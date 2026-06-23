@@ -2,6 +2,7 @@
 Base settings for kamikonn project.
 """
 
+from datetime import timedelta
 from pathlib import Path
 
 from decouple import config
@@ -40,6 +41,7 @@ INSTALLED_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     "allauth.socialaccount.providers.google",
+    "rest_framework_simplejwt.token_blacklist",
     # Local apps
     "apps.core",
     "apps.accounts",
@@ -160,4 +162,14 @@ SOCIALACCOUNT_PROVIDERS = {
             "access_type": "online",
         },
     }
+}
+
+# Simple JWT
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
+    "ROTATE_REFRESH_TOKENS": True,
+    "BLACKLIST_AFTER_ROTATION": True,
+    "AUTH_HEADER_TYPES": ("Bearer",),
 }
