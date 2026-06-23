@@ -11,7 +11,7 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
 
-from .serializers import CustomTokenObtainPairSerializer, RegisterSerializer, UserSerializer
+from .serializers import CustomTokenObtainPairSerializer, UserSerializer
 
 User = get_user_model()
 
@@ -29,12 +29,6 @@ class ConfirmEmailRedirectView(APIView):
         key = kwargs.get("key")
         frontend_url = getattr(settings, "FRONTEND_URL", "http://localhost:5173")
         return HttpResponseRedirect(f"{frontend_url}/verify-email/{key}")
-
-
-class RegisterView(generics.CreateAPIView):
-    queryset = User.objects.all()
-    permission_classes = (AllowAny,)
-    serializer_class = RegisterSerializer
 
 
 class CustomTokenObtainPairView(TokenObtainPairView):

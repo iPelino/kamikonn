@@ -73,7 +73,6 @@ CSP_STYLE_SRC = ("'self'", "'unsafe-inline'", "fonts.googleapis.com")
 CSP_FONT_SRC = ("'self'", "fonts.gstatic.com", "data:")
 CSP_IMG_SRC = ("'self'", "data:", "res.cloudinary.com")
 CSP_SCRIPT_SRC = ("'self'",)
-
 SITE_ID = 1
 
 ROOT_URLCONF = "kamikonn.urls"
