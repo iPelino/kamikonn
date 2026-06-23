@@ -129,6 +129,52 @@ chore(deps): bump Django from 5.2.0 to 5.2.1
 
 ---
 
+## Issue Linking (Mandatory)
+
+Every commit or PR that resolves tracked work **must** close its related issue using a [GitHub closing keyword](https://docs.github.com/en/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue). This keeps the issue tracker accurate without any manual cleanup.
+
+### Closing Keywords
+
+Use any of the following keywords followed by the issue number in your **commit message body** or **PR description**:
+
+```
+Closes #<number>
+Fixes #<number>
+Resolves #<number>
+```
+
+### In a Commit Message
+
+```
+feat(events): add full-text search endpoint
+
+Implements pg_trgm + SearchVector on the Event model.
+
+Closes #20
+```
+
+### In a PR Description
+
+When a single PR resolves multiple issues, list each one:
+
+```
+Closes #20
+Closes #21
+```
+
+### Rules
+
+| Situation | What to do |
+|-----------|-----------|
+| Your commit fully implements an issue | Add `Closes #N` to the commit body |
+| Your PR spans multiple issues | Add one `Closes #N` line per issue in the PR description |
+| Your commit is partial progress | Add a comment on the issue instead -- do not close prematurely |
+| Work was done without a prior issue | Open an issue first, then close it in the commit |
+
+> **Note:** The keyword must appear in the **default branch** (or the target branch of the PR) for GitHub to auto-close the issue. Closing keywords in commits on feature branches only take effect when those commits land in `develop` or `main` via a merged PR.
+
+---
+
 ## Pull Request Process
 
 1. Ensure your branch is up to date with the target branch.
