@@ -1,11 +1,11 @@
 ---
-name: kamconnect-docker
-description: Standardized way to build and run the KamConnect Docker environment.
+name: kamikonn-docker
+description: Standardized way to build and run the KamiKonn Docker environment.
 ---
 
-# KamConnect Docker Workflow
+# KamiKonn Docker Workflow
 
-When managing the KamConnect environment, use these standards:
+When managing the KamiKonn environment, use these standards:
 
 1. Use `docker compose up --build -d` to spin up both frontend and backend.
 2. The backend runs on port 8000.

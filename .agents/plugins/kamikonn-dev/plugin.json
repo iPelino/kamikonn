@@ -1,0 +1,8 @@
+{
+  "name": "kamikonn-dev",
+  "version": "1.0.0",
+  "description": "Project-scoped tools and subagents for the KamiKonn monorepo.",
+  "author": {
+    "name": "KamiKonn Team"
+  }
+}

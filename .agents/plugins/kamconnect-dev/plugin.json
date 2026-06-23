@@ -1,8 +1,0 @@
-{
-  "name": "kamconnect-dev",
-  "version": "1.0.0",
-  "description": "Project-scoped tools and subagents for the KamConnect monorepo.",
-  "author": {
-    "name": "KamConnect Team"
-  }
-}
