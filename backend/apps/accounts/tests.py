@@ -1,4 +1,5 @@
 import pytest
+from allauth.account.models import EmailAddress
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 from rest_framework import status
@@ -20,38 +21,61 @@ def create_user(db):
         kwargs.setdefault("last_name", "User")
         if "email" in kwargs and "username" not in kwargs:
             kwargs["username"] = kwargs["email"]
-        return User.objects.create_user(**kwargs)
+        user = User.objects.create_user(**kwargs)
+        from allauth.account.models import EmailAddress
+
+        EmailAddress.objects.create(user=user, email=user.email, verified=True, primary=True)
+        return user
 
     return make_user
 
 
 @pytest.mark.django_db
 class TestAuthenticationEndpoints:
-    def test_user_registration(self, api_client):
-        url = reverse("accounts:register")
+    def test_user_registration(self, api_client, mailoutbox):
+        url = reverse("accounts:rest_register")
         data = {
             "email": "test@example.com",
-            "password": "securepassword123",  # pragma: allowlist secret
-            "password_confirm": "securepassword123",  # pragma: allowlist secret
+            "password1": "securepassword123",  # pragma: allowlist secret
+            "password2": "securepassword123",  # pragma: allowlist secret
             "first_name": "John",
             "last_name": "Doe",
         }
         response = api_client.post(url, data)
         assert response.status_code == status.HTTP_201_CREATED
         assert User.objects.filter(email="test@example.com").exists()
+        assert len(mailoutbox) == 1
+        assert "test@example.com" in mailoutbox[0].to
+
+    def test_user_login_unverified(self, api_client, create_user):
+        user = create_user(
+            email="unverified@example.com",
+            password="mypassword123",  # pragma: allowlist secret
+        )
+        # Unverify the user
+        EmailAddress.objects.filter(user=user).update(verified=False)
+
+        url = reverse("accounts:token_obtain_pair")
+        data = {
+            "email": "unverified@example.com",
+            "password": "mypassword123",  # pragma: allowlist secret
+        }
+        response = api_client.post(url, data)
+        assert response.status_code == status.HTTP_400_BAD_REQUEST
+        assert "E-mail is not verified" in str(response.data["detail"])
 
     def test_user_registration_password_mismatch(self, api_client):
-        url = reverse("accounts:register")
+        url = reverse("accounts:rest_register")
         data = {
             "email": "test2@example.com",
-            "password": "securepassword123",  # pragma: allowlist secret
-            "password_confirm": "wrongpassword",  # pragma: allowlist secret
+            "password1": "securepassword123",  # pragma: allowlist secret
+            "password2": "wrongpassword",  # pragma: allowlist secret
             "first_name": "John",
             "last_name": "Doe",
         }
         response = api_client.post(url, data)
         assert response.status_code == status.HTTP_400_BAD_REQUEST
-        assert "password_confirm" in response.data
+        assert "password2" in response.data or "non_field_errors" in response.data
 
     def test_user_login(self, api_client, create_user):
         create_user(email="login@example.com", password="mypassword123")  # pragma: allowlist secret

@@ -62,8 +62,17 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "csp.middleware.CSPMiddleware",
     "allauth.account.middleware.AccountMiddleware",
+    "apps.accounts.middleware.AuthRateLimitMiddleware",
 ]
+
+# CSP Settings
+CSP_DEFAULT_SRC = ("'self'",)
+CSP_STYLE_SRC = ("'self'", "'unsafe-inline'", "fonts.googleapis.com")
+CSP_FONT_SRC = ("'self'", "fonts.gstatic.com", "data:")
+CSP_IMG_SRC = ("'self'", "data:", "res.cloudinary.com")
+CSP_SCRIPT_SRC = ("'self'",)
 
 SITE_ID = 1
 
@@ -138,12 +147,16 @@ REST_AUTH = {
     "JWT_AUTH_COOKIE": "kamikonn-auth",
     "JWT_AUTH_REFRESH_COOKIE": "kamikonn-refresh",
     "USER_DETAILS_SERIALIZER": "apps.accounts.serializers.UserSerializer",
+    "REGISTER_SERIALIZER": "apps.accounts.serializers.RegisterSerializer",
 }
 
 ACCOUNT_LOGIN_METHODS = {"email"}
 ACCOUNT_SIGNUP_FIELDS = ["email*", "password1*", "password2*"]
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
-ACCOUNT_EMAIL_VERIFICATION = "none"  # Will be implemented in #49
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 3
+ACCOUNT_ADAPTER = "apps.accounts.adapter.CustomAccountAdapter"
 
 SOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True
 

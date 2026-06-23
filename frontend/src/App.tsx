@@ -3,6 +3,7 @@ import PageContainer from './components/layout/PageContainer';
 import { Button } from '@/components/ui/button';
 import LoginPage from './features/auth/pages/LoginPage';
 import RegisterPage from './features/auth/pages/RegisterPage';
+import VerifyEmailPage from './features/auth/pages/VerifyEmailPage';
 
 // Placeholder Home component
 function Home() {
@@ -33,6 +34,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/verify-email/:key" element={<VerifyEmailPage />} />
       </Routes>
     </PageContainer>
   );

@@ -1,14 +1,17 @@
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from dj_rest_auth.registration.views import SocialLoginView
+from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.http import HttpResponseRedirect
 from rest_framework import generics, status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.views import TokenObtainPairView
 
-from .serializers import RegisterSerializer, UserSerializer
+from .serializers import CustomTokenObtainPairSerializer, RegisterSerializer, UserSerializer
 
 User = get_user_model()
 
@@ -19,10 +22,23 @@ class GoogleLogin(SocialLoginView):
     client_class = OAuth2Client
 
 
+class ConfirmEmailRedirectView(APIView):
+    permission_classes = (AllowAny,)
+
+    def get(self, request, *args, **kwargs):
+        key = kwargs.get("key")
+        frontend_url = getattr(settings, "FRONTEND_URL", "http://localhost:5173")
+        return HttpResponseRedirect(f"{frontend_url}/verify-email/{key}")
+
+
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
     permission_classes = (AllowAny,)
     serializer_class = RegisterSerializer
+
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
 
 
 class LogoutView(APIView):
