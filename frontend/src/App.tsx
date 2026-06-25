@@ -10,7 +10,6 @@ import { OrganizerProfilePage } from './features/organizers/pages/OrganizerProfi
 import { OrganizerDashboardPage } from './features/organizers/pages/OrganizerDashboardPage';
 import { BecomeOrganizerPage } from './features/organizers/pages/BecomeOrganizerPage';
 import { ModerationQueuePage } from './features/moderation/pages/ModerationQueuePage';
-
 import { CreateEventPage } from './features/events/pages/CreateEventPage';
 
 // Placeholder Home component
