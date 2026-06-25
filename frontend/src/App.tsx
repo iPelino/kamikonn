@@ -10,6 +10,7 @@ import { OrganizerProfilePage } from './features/organizers/pages/OrganizerProfi
 import { OrganizerDashboardPage } from './features/organizers/pages/OrganizerDashboardPage';
 import { BecomeOrganizerPage } from './features/organizers/pages/BecomeOrganizerPage';
 import { ModerationQueuePage } from './features/moderation/pages/ModerationQueuePage';
+import { CreateEventPage } from './features/events/pages/CreateEventPage';
 
 // Placeholder Home component
 function Home() {
@@ -25,9 +26,16 @@ function Home() {
         <Link to="/events">
           <Button className="bg-amber text-forest hover:bg-amber/90" size="lg">Explore Events</Button>
         </Link>
-        <Button variant="outline" className="border-forest text-forest hover:bg-forest/5" size="lg">
-          Become an Organizer
-        </Button>
+        <Link to="/events/create">
+          <Button variant="outline" className="border-forest text-forest hover:bg-forest/5" size="lg">
+            Create Event
+          </Button>
+        </Link>
+        <Link to="/organizer/become">
+          <Button variant="outline" className="border-forest text-forest hover:bg-forest/5" size="lg">
+            Become an Organizer
+          </Button>
+        </Link>
       </div>
     </div>
   );
@@ -42,6 +50,7 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/verify-email/:key" element={<VerifyEmailPage />} />
         <Route path="/events" element={<EventDiscoveryPage />} />
+        <Route path="/events/create" element={<CreateEventPage />} />
         <Route path="/events/:slug" element={<EventDetailPage />} />
         <Route path="/organizer/become" element={<BecomeOrganizerPage />} />
         <Route path="/organizer/dashboard" element={<OrganizerDashboardPage />} />
