@@ -16,7 +16,7 @@ export function BasicInfoStep({ form }: { form: UseFormReturn<EventFormData> }) 
     queryFn: async () => {
       const res = await apiClient.get('/categories/');
       return res.data;
-    }
+    },
   });
 
   return (
@@ -50,7 +50,7 @@ export function BasicInfoStep({ form }: { form: UseFormReturn<EventFormData> }) 
           {...register('category')}
         >
           <option value="">Select a category</option>
-          {categories.map((cat: any) => (
+          {categories.map((cat: { id: string; name: string }) => (
             <option key={cat.id} value={cat.id}>{cat.name}</option>
           ))}
         </select>
@@ -60,7 +60,7 @@ export function BasicInfoStep({ form }: { form: UseFormReturn<EventFormData> }) 
         <Switch
           id="is_virtual"
           checked={isVirtual}
-          onCheckedChange={(checked) => setValue('is_virtual', checked, { shouldValidate: true })}
+          onCheckedChange={(checked: boolean) => setValue('is_virtual', checked, { shouldValidate: true })}
         />
         <div className="space-y-0.5">
           <Label htmlFor="is_virtual" className="text-base">Virtual Event</Label>
