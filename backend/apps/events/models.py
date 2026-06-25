@@ -84,6 +84,7 @@ class Event(TimeStampedModel):
         ordering = ["-start_time"]
         indexes = [
             GinIndex(fields=["search_vector"]),
+            GinIndex(fields=["title"], opclasses=["gin_trgm_ops"], name="event_title_trgm_idx"),
         ]
 
     def __str__(self):
