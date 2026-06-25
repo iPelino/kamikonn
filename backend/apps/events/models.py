@@ -35,12 +35,12 @@ class EventStatus(models.TextChoices):
 class Event(TimeStampedModel):
     title = models.CharField(_("title"), max_length=255)
     slug = models.SlugField(_("slug"), max_length=255, unique=True, blank=True)
-    description = models.TextField(_("description"))
+    description = models.TextField(_("description"), blank=True)
 
-    start_time = models.DateTimeField(_("start time"))
-    end_time = models.DateTimeField(_("end time"))
+    start_time = models.DateTimeField(_("start time"), blank=True, null=True)
+    end_time = models.DateTimeField(_("end time"), blank=True, null=True)
 
-    location = models.CharField(_("location"), max_length=255)
+    location = models.CharField(_("location"), max_length=255, blank=True)
     is_virtual = models.BooleanField(_("is virtual"), default=False)
     virtual_link = models.URLField(_("virtual link"), blank=True)
 
