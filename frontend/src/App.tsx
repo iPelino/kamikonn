@@ -11,6 +11,7 @@ import { OrganizerDashboardPage } from './features/organizers/pages/OrganizerDas
 import { BecomeOrganizerPage } from './features/organizers/pages/BecomeOrganizerPage';
 import { ModerationQueuePage } from './features/moderation/pages/ModerationQueuePage';
 import { CreateEventPage } from './features/events/pages/CreateEventPage';
+import { UniversityManagementPage } from './features/universities/pages/UniversityManagementPage';
 
 // Placeholder Home component
 function Home() {
@@ -56,6 +57,7 @@ function App() {
         <Route path="/organizer/dashboard" element={<OrganizerDashboardPage />} />
         <Route path="/organizer/:id" element={<OrganizerProfilePage />} />
         <Route path="/moderation/queue" element={<ModerationQueuePage />} />
+        <Route path="/admin/universities" element={<UniversityManagementPage />} />
       </Routes>
     </PageContainer>
   );

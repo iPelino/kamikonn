@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { BasicInfoStep } from './BasicInfoStep';
 import { TimingStep } from './TimingStep';
 import { MediaStep } from './MediaStep';
-import { apiClient } from '@/api/client';
+import apiClient from '@/api/client';
 import { toast } from 'sonner';
 import { useNavigate } from 'react-router';
 
@@ -14,7 +14,7 @@ const eventSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters").max(100),
   description: z.string().min(10, "Description must be at least 10 characters").optional().or(z.literal('')),
   category: z.string().optional().or(z.literal('')),
-  is_virtual: z.boolean().default(false),
+  is_virtual: z.boolean(),
   location: z.string().optional().or(z.literal('')),
   start_time: z.string().optional().or(z.literal('')),
   end_time: z.string().optional().or(z.literal('')),

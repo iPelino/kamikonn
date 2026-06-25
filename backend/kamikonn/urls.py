@@ -13,7 +13,7 @@ urlpatterns = [
     path("api/v1/auth/", include("apps.accounts.urls")),
     path("api/v1/", include("apps.events.urls")),
     path("api/v1/organizers/", include("apps.organizers.urls")),
-    # path('api/v1/universities/', include('apps.universities.urls')),
+    path("api/v1/", include("apps.universities.urls")),
 ]
 
 if settings.DEBUG:
