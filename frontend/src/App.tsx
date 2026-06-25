@@ -1,6 +1,7 @@
 import { Routes, Route, Link } from 'react-router';
 import PageContainer from './components/layout/PageContainer';
 import { Button } from '@/components/ui/button';
+import { SEO } from './components/SEO';
 import LoginPage from './features/auth/pages/LoginPage';
 import RegisterPage from './features/auth/pages/RegisterPage';
 import VerifyEmailPage from './features/auth/pages/VerifyEmailPage';
@@ -18,6 +19,7 @@ import { MyRSVPsPage } from './features/rsvp/pages/MyRSVPsPage';
 function Home() {
   return (
     <div className="flex flex-col items-center justify-center py-20 text-center">
+      <SEO title="Home" />
       <h1 className="mb-6 font-heading text-4xl font-bold md:text-6xl">
         Discover Academic Events Across <span className="text-forest">Rwanda</span>
       </h1>
@@ -46,6 +48,7 @@ function Home() {
 function App() {
   return (
     <PageContainer>
+      <SEO />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<LoginPage />} />

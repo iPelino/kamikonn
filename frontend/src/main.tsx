@@ -9,21 +9,24 @@ import { ThemeProvider } from './providers/theme-provider'
 
 import { Toaster } from 'sonner'
 import { GoogleOAuthProvider } from '@react-oauth/google'
+import { HelmetProvider } from 'react-helmet-async'
 
 const queryClient = new QueryClient()
 const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_OAUTH_CLIENT_ID || 'your-google-client-id'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
-      <QueryClientProvider client={queryClient}>
-        <ThemeProvider defaultTheme="system" storageKey="kamikonn-ui-theme">
-          <BrowserRouter>
-            <App />
-            <Toaster position="top-center" richColors />
-          </BrowserRouter>
-        </ThemeProvider>
-      </QueryClientProvider>
-    </GoogleOAuthProvider>
+    <HelmetProvider>
+      <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+        <QueryClientProvider client={queryClient}>
+          <ThemeProvider defaultTheme="system" storageKey="kamikonn-ui-theme">
+            <BrowserRouter>
+              <App />
+              <Toaster position="top-center" richColors />
+            </BrowserRouter>
+          </ThemeProvider>
+        </QueryClientProvider>
+      </GoogleOAuthProvider>
+    </HelmetProvider>
   </StrictMode>,
 )
