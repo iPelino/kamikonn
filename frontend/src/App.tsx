@@ -6,6 +6,9 @@ import RegisterPage from './features/auth/pages/RegisterPage';
 import VerifyEmailPage from './features/auth/pages/VerifyEmailPage';
 import { EventDiscoveryPage } from './features/events/pages/EventDiscoveryPage';
 import { EventDetailPage } from './features/events/pages/EventDetailPage';
+import { OrganizerProfilePage } from './features/organizers/pages/OrganizerProfilePage';
+import { OrganizerDashboardPage } from './features/organizers/pages/OrganizerDashboardPage';
+import { BecomeOrganizerPage } from './features/organizers/pages/BecomeOrganizerPage';
 
 // Placeholder Home component
 function Home() {
@@ -39,6 +42,9 @@ function App() {
         <Route path="/verify-email/:key" element={<VerifyEmailPage />} />
         <Route path="/events" element={<EventDiscoveryPage />} />
         <Route path="/events/:slug" element={<EventDetailPage />} />
+        <Route path="/organizer/become" element={<BecomeOrganizerPage />} />
+        <Route path="/organizer/dashboard" element={<OrganizerDashboardPage />} />
+        <Route path="/organizer/:id" element={<OrganizerProfilePage />} />
       </Routes>
     </PageContainer>
   );
