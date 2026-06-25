@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { UploadIcon, Loader2 } from 'lucide-react';
-import { apiClient } from '@/api/client';
+import apiClient from '@/api/client';
 import { toast } from 'sonner';
 
 export function CsvImportButton() {

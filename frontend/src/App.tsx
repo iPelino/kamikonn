@@ -12,6 +12,7 @@ import { BecomeOrganizerPage } from './features/organizers/pages/BecomeOrganizer
 import { ModerationQueuePage } from './features/moderation/pages/ModerationQueuePage';
 import { CreateEventPage } from './features/events/pages/CreateEventPage';
 import { UniversityManagementPage } from './features/universities/pages/UniversityManagementPage';
+import { MyRSVPsPage } from './features/rsvp/pages/MyRSVPsPage';
 
 // Placeholder Home component
 function Home() {
@@ -58,6 +59,7 @@ function App() {
         <Route path="/organizer/:id" element={<OrganizerProfilePage />} />
         <Route path="/moderation/queue" element={<ModerationQueuePage />} />
         <Route path="/admin/universities" element={<UniversityManagementPage />} />
+        <Route path="/my-rsvps" element={<MyRSVPsPage />} />
       </Routes>
     </PageContainer>
   );

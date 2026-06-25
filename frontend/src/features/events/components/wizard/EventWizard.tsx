@@ -14,11 +14,11 @@ const eventSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters").max(100),
   description: z.string().min(10, "Description must be at least 10 characters").optional().or(z.literal('')),
   category: z.string().optional().or(z.literal('')),
-  is_virtual: z.boolean(),
+  is_virtual: z.coerce.boolean().default(false),
   location: z.string().optional().or(z.literal('')),
   start_time: z.string().optional().or(z.literal('')),
   end_time: z.string().optional().or(z.literal('')),
-  banner_image: z.any().optional()
+  banner_image: z.any().optional(),
 });
 
 export type EventFormData = z.infer<typeof eventSchema>;
@@ -28,8 +28,9 @@ export function EventWizard() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const form = useForm<EventFormData>({
-    resolver: zodResolver(eventSchema),
+    resolver: zodResolver(eventSchema) as any,
     defaultValues: {
       title: '',
       description: '',
@@ -37,8 +38,8 @@ export function EventWizard() {
       is_virtual: false,
       location: '',
       start_time: '',
-      end_time: ''
-    }
+      end_time: '',
+    },
   });
 
   const nextStep = async () => {
@@ -73,19 +74,14 @@ export function EventWizard() {
         formData.append('banner_image', data.banner_image[0]);
       }
 
-      // Create draft event
       const res = await apiClient.post('/events/', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
+        headers: { 'Content-Type': 'multipart/form-data' },
       });
 
       toast.success('Event draft created successfully!');
-
-      // Navigate to the event detail page or dashboard
       navigate(`/events/${res.data.slug}`);
-
-    } catch (error: any) {
+    } catch {
       toast.error('Failed to create event. Please try again.');
-      console.error(error);
     } finally {
       setIsSubmitting(false);
     }

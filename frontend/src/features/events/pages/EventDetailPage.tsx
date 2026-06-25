@@ -4,10 +4,13 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { CalendarIcon, MapPinIcon, ArrowLeftIcon, GlobeIcon, Share2Icon } from 'lucide-react';
 import { Loader2 } from 'lucide-react';
+import { RSVPButton } from '@/features/rsvp/components/RSVPButton';
+import { useRSVP } from '@/features/rsvp/hooks/useRSVP';
 
 export function EventDetailPage() {
   const { slug } = useParams<{ slug: string }>();
   const { data: event, isLoading, isError } = useEventDetails(slug || '');
+  const { rsvp } = useRSVP(slug ?? '');
 
   if (isLoading) {
     return (
@@ -113,15 +116,22 @@ export function EventDetailPage() {
                 </div>
               </div>
 
-              {event.is_virtual && event.virtual_link && (
+              {/* Virtual link only visible after RSVP */}
+              {event.is_virtual && event.virtual_link && rsvp?.status === 'ATTENDING' && (
                 <div className="flex items-start gap-3">
                   <GlobeIcon className="w-5 h-5 text-primary mt-0.5" />
                   <div>
-                    <p className="font-medium">Link</p>
+                    <p className="font-medium">Virtual Link</p>
                     <a href={event.virtual_link} target="_blank" rel="noreferrer" className="text-primary text-sm hover:underline">
                       Join Online
                     </a>
                   </div>
+                </div>
+              )}
+              {event.is_virtual && !rsvp && (
+                <div className="flex items-start gap-3">
+                  <GlobeIcon className="w-5 h-5 text-muted-foreground mt-0.5" />
+                  <p className="text-sm text-muted-foreground">Virtual link visible after RSVP</p>
                 </div>
               )}
             </div>
@@ -133,9 +143,7 @@ export function EventDetailPage() {
                   {parseFloat(event.price) === 0 ? 'Free' : `${event.price} RWF`}
                 </span>
               </div>
-              <Button className="w-full" size="lg">
-                RSVP Now
-              </Button>
+              <RSVPButton eventSlug={slug ?? ''} />
               <Button variant="outline" className="w-full">
                 <Share2Icon className="mr-2 h-4 w-4" /> Share Event
               </Button>

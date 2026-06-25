@@ -125,3 +125,36 @@ class Event(TimeStampedModel):
                 pass
 
         super().save(*args, **kwargs)
+
+
+class RSVPStatus(models.TextChoices):
+    ATTENDING = "ATTENDING", _("Attending")
+    WAITLISTED = "WAITLISTED", _("Waitlisted")
+    CANCELLED = "CANCELLED", _("Cancelled")
+
+
+class RSVP(TimeStampedModel):
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name="rsvps")
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="rsvps"
+    )
+    status = models.CharField(
+        max_length=20, choices=RSVPStatus.choices, default=RSVPStatus.ATTENDING
+    )
+
+    class Meta:
+        unique_together = [["event", "user"]]
+        ordering = ["created_at"]
+
+    def __str__(self):
+        return f"{self.user} - {self.event} ({self.status})"
+
+
+class SavedEvent(TimeStampedModel):
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name="saves")
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="saved_events"
+    )
+
+    class Meta:
+        unique_together = [["event", "user"]]
