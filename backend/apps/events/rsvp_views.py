@@ -11,6 +11,7 @@ from rest_framework.response import Response
 
 from apps.events.models import RSVP, Event, RSVPStatus, SavedEvent
 from apps.events.rsvp_serializers import RSVPSerializer, SavedEventSerializer
+from apps.events.tasks import send_rsvp_confirmation_email
 
 
 class RSVPViewSet(viewsets.GenericViewSet):
@@ -80,6 +81,10 @@ class RSVPViewSet(viewsets.GenericViewSet):
             )
 
         serializer = self.get_serializer(rsvp)
+
+        # Trigger async email notification
+        send_rsvp_confirmation_email.delay(request.user.id, locked_event.title, rsvp_status)
+
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def _cancel_rsvp(self, request, event_slug: str | None):
@@ -124,6 +129,11 @@ class RSVPViewSet(viewsets.GenericViewSet):
                 if next_in_line:
                     next_in_line.status = RSVPStatus.ATTENDING
                     next_in_line.save(update_fields=["status", "updated_at"])
+
+                    # Notify promoted user
+                    send_rsvp_confirmation_email.delay(
+                        next_in_line.user.id, locked_event.title, "ATTENDING"
+                    )
 
         return Response(status=status.HTTP_204_NO_CONTENT)
 
