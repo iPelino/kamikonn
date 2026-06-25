@@ -2,6 +2,7 @@ import { useCurrentOrganizerProfile } from '../hooks/useOrganizers';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Loader2, DownloadIcon, UsersIcon, CalendarIcon, CheckCircle2Icon } from 'lucide-react';
+import { CsvImportButton } from '../../events/components/CsvImportButton';
 
 export function OrganizerDashboardPage() {
   const { data: profile, isLoading, isError } = useCurrentOrganizerProfile(true);
@@ -31,9 +32,12 @@ export function OrganizerDashboardPage() {
           <h1 className="text-3xl font-bold tracking-tight">Organizer Dashboard</h1>
           <p className="text-muted-foreground">Manage your events and track RSVPs</p>
         </div>
-        <Button>
-          Create New Event
-        </Button>
+        <div className="flex gap-4">
+          <CsvImportButton />
+          <Button>
+            Create New Event
+          </Button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
