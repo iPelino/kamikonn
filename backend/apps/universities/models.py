@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -12,6 +13,12 @@ class University(TimeStampedModel):
     )
     logo_url = models.URLField(_("logo URL"), blank=True)
     is_active = models.BooleanField(_("is active"), default=True)
+    moderators = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        related_name="moderated_universities",
+        blank=True,
+        verbose_name=_("moderators"),
+    )
 
     class Meta:
         verbose_name_plural = "Universities"

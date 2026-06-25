@@ -7,6 +7,7 @@ import './i18n'
 import App from './App.tsx'
 import { ThemeProvider } from './providers/theme-provider'
 
+import { Toaster } from 'sonner'
 import { GoogleOAuthProvider } from '@react-oauth/google'
 
 const queryClient = new QueryClient()
@@ -19,6 +20,7 @@ createRoot(document.getElementById('root')!).render(
         <ThemeProvider defaultTheme="system" storageKey="kamikonn-ui-theme">
           <BrowserRouter>
             <App />
+            <Toaster position="top-center" richColors />
           </BrowserRouter>
         </ThemeProvider>
       </QueryClientProvider>
