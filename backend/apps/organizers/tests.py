@@ -11,6 +11,7 @@ User = get_user_model()
 @pytest.fixture
 def user():
     return User.objects.create_user(
+        username="testorg",
         email="test_organizer@kamikonn.com",
         password="testpassword123",  # pragma: allowlist secret
         first_name="Test",
