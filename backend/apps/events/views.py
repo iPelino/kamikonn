@@ -1,8 +1,13 @@
+import csv
+import io
+
 from django.contrib.postgres.search import SearchQuery
 from django.core.mail import send_mail
+from django.utils.dateparse import parse_datetime
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, permissions, viewsets
 from rest_framework.decorators import action
+from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
 
 from apps.events.filters import EventFilter
@@ -95,6 +100,75 @@ class EventViewSet(viewsets.ModelViewSet):
         event.status = EventStatus.PENDING
         event.save()
         return Response({"status": "submitted", "event": event.slug})
+
+    @action(detail=False, methods=["post"], parser_classes=[MultiPartParser])
+    def import_csv(self, request):
+        if "file" not in request.FILES:
+            return Response({"error": "No file provided"}, status=400)
+
+        file = request.FILES["file"]
+        if not file.name.endswith(".csv"):
+            return Response({"error": "File must be a CSV"}, status=400)
+
+        try:
+            decoded_file = file.read().decode("utf-8")
+            io_string = io.StringIO(decoded_file)
+            reader = csv.DictReader(io_string)
+
+            events_created = 0
+            errors = []
+
+            for row_idx, row in enumerate(reader, start=1):
+                title = row.get("title", "").strip()
+                if not title:
+                    errors.append(f"Row {row_idx}: Missing title")
+                    continue
+
+                start_time_str = row.get("start_time", "").strip()
+                end_time_str = row.get("end_time", "").strip()
+                start_time = parse_datetime(start_time_str) if start_time_str else None
+                end_time = parse_datetime(end_time_str) if end_time_str else None
+
+                description = row.get("description", "").strip()
+                location = row.get("location", "").strip()
+                is_virtual = str(row.get("is_virtual", "")).lower() in ["true", "1", "yes"]
+                capacity_str = row.get("capacity", "0").strip()
+                price_str = row.get("price", "0.00").strip()
+
+                try:
+                    capacity = int(capacity_str) if capacity_str else 0
+                except ValueError:
+                    capacity = 0
+
+                try:
+                    price = float(price_str) if price_str else 0.00
+                except ValueError:
+                    price = 0.00
+
+                Event.objects.create(
+                    title=title,
+                    description=description,
+                    start_time=start_time,
+                    end_time=end_time,
+                    location=location,
+                    is_virtual=is_virtual,
+                    capacity=capacity,
+                    price=price,
+                    organizer=request.user,
+                    status=EventStatus.DRAFT,
+                )
+                events_created += 1
+
+            return Response(
+                {
+                    "message": f"Successfully imported {events_created} events.",
+                    "events_created": events_created,
+                    "errors": errors,
+                }
+            )
+
+        except Exception as e:
+            return Response({"error": f"Error processing CSV: {str(e)}"}, status=400)
 
 
 class ModerationEventViewSet(viewsets.ReadOnlyModelViewSet):
