@@ -69,10 +69,10 @@ export function UniversityManagementPage() {
               <CardHeader className="flex flex-row items-center justify-between pb-2">
                 <CardTitle className="text-lg font-bold">{univ.short_name}</CardTitle>
                 <div className="flex gap-2">
-                  <Button variant="ghost" size="icon" onClick={() => handleEdit(univ)}>
+                  <Button variant="ghost" size="icon" aria-label="Edit university" onClick={() => handleEdit(univ)}>
                     <Edit2 className="w-4 h-4 text-muted-foreground" />
                   </Button>
-                  <Button variant="ghost" size="icon" onClick={() => handleMods(univ)}>
+                  <Button variant="ghost" size="icon" aria-label="Manage moderators" onClick={() => handleMods(univ)}>
                     <Users className="w-4 h-4 text-muted-foreground" />
                   </Button>
                 </div>
@@ -217,7 +217,7 @@ function ModeratorDialog({ univ, open, onOpenChange, onSuccess }: any) {
                     <p className="text-sm font-medium">{m.first_name} {m.last_name}</p>
                     <p className="text-xs text-muted-foreground">{m.email}</p>
                   </div>
-                  <Button variant="ghost" size="icon" onClick={() => removeMut.mutate(m.id)}>
+                  <Button variant="ghost" size="icon" aria-label="Remove moderator" onClick={() => removeMut.mutate(m.id)}>
                     <X className="w-4 h-4 text-destructive" />
                   </Button>
                 </div>
