@@ -9,6 +9,7 @@ import { EventDetailPage } from './features/events/pages/EventDetailPage';
 import { OrganizerProfilePage } from './features/organizers/pages/OrganizerProfilePage';
 import { OrganizerDashboardPage } from './features/organizers/pages/OrganizerDashboardPage';
 import { BecomeOrganizerPage } from './features/organizers/pages/BecomeOrganizerPage';
+import { ModerationQueuePage } from './features/moderation/pages/ModerationQueuePage';
 
 // Placeholder Home component
 function Home() {
@@ -45,6 +46,7 @@ function App() {
         <Route path="/organizer/become" element={<BecomeOrganizerPage />} />
         <Route path="/organizer/dashboard" element={<OrganizerDashboardPage />} />
         <Route path="/organizer/:id" element={<OrganizerProfilePage />} />
+        <Route path="/moderation/queue" element={<ModerationQueuePage />} />
       </Routes>
     </PageContainer>
   );
