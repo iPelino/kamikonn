@@ -97,6 +97,15 @@ class EventViewSet(viewsets.ModelViewSet):
         if missing:
             return Response({"error": f"Missing required fields: {', '.join(missing)}"}, status=400)
 
+        # Auto-trust check: skip PENDING if organizer has 3+ clean (approved) events
+        clean_events_count = Event.objects.filter(
+            organizer=request.user, status=EventStatus.APPROVED
+        ).count()
+        if clean_events_count >= 3:
+            event.status = EventStatus.APPROVED
+            event.save()
+            return Response({"status": "approved_auto", "event": event.slug})
+
         event.status = EventStatus.PENDING
         event.save()
         return Response({"status": "submitted", "event": event.slug})
@@ -199,6 +208,14 @@ class ModerationEventViewSet(viewsets.ReadOnlyModelViewSet):
         event.status = EventStatus.APPROVED
         event.save()
 
+        from apps.moderation.models import ModerationAction, ModerationLog
+
+        ModerationLog.objects.create(
+            event=event,
+            moderator=request.user,
+            action=ModerationAction.APPROVED,
+        )
+
         send_mail(
             subject=f"Your event '{event.title}' has been approved!",
             message=(
@@ -217,6 +234,14 @@ class ModerationEventViewSet(viewsets.ReadOnlyModelViewSet):
         event = self.get_object()
         event.status = EventStatus.REJECTED
         event.save()
+
+        from apps.moderation.models import ModerationAction, ModerationLog
+
+        ModerationLog.objects.create(
+            event=event,
+            moderator=request.user,
+            action=ModerationAction.REJECTED,
+        )
 
         send_mail(
             subject=f"Your event '{event.title}' has been rejected",
