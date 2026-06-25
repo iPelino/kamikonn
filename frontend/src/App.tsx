@@ -1,9 +1,11 @@
-import { Routes, Route } from 'react-router';
+import { Routes, Route, Link } from 'react-router';
 import PageContainer from './components/layout/PageContainer';
 import { Button } from '@/components/ui/button';
 import LoginPage from './features/auth/pages/LoginPage';
 import RegisterPage from './features/auth/pages/RegisterPage';
 import VerifyEmailPage from './features/auth/pages/VerifyEmailPage';
+import { EventDiscoveryPage } from './features/events/pages/EventDiscoveryPage';
+import { EventDetailPage } from './features/events/pages/EventDetailPage';
 
 // Placeholder Home component
 function Home() {
@@ -16,9 +18,9 @@ function Home() {
         The central hub for academic seminars, hackathons, and workshops across Kigali's universities.
       </p>
       <div className="flex gap-4">
-        <Button className="bg-amber text-forest hover:bg-amber/90" size="lg">
-          Explore Events
-        </Button>
+        <Link to="/events">
+          <Button className="bg-amber text-forest hover:bg-amber/90" size="lg">Explore Events</Button>
+        </Link>
         <Button variant="outline" className="border-forest text-forest hover:bg-forest/5" size="lg">
           Become an Organizer
         </Button>
@@ -35,6 +37,8 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/verify-email/:key" element={<VerifyEmailPage />} />
+        <Route path="/events" element={<EventDiscoveryPage />} />
+        <Route path="/events/:slug" element={<EventDetailPage />} />
       </Routes>
     </PageContainer>
   );
