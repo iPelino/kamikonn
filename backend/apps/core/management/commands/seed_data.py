@@ -72,6 +72,25 @@ class Command(BaseCommand):
                 "short_name": "CMU",
                 "domain": "africa.cmu.edu",
             },
+            {
+                "name": "Kigali Independent University",
+                "short_name": "ULK",
+                "domain": "ulk.ac.rw",
+            },
+            {
+                "name": "Adventist University of Central Africa",
+                "short_name": "AUCA",
+                "domain": "auca.ac.rw",
+            },
+            {"name": "University of Kigali", "short_name": "UoK", "domain": "uok.ac.rw"},
+            {
+                "name": "Mount Kenya University Rwanda",
+                "short_name": "MKUR",
+                "domain": "mku.ac.rw",
+            },
+            {"name": "Davis College / Akilah", "short_name": "Davis", "domain": "daviscollege.com"},
+            {"name": "Kepler", "short_name": "Kepler", "domain": "kepler.org"},
+            {"name": "IPRC Kigali", "short_name": "IPRC", "domain": "iprckigali.rp.ac.rw"},
         ]
         universities = []
         for u_data in universities_data:

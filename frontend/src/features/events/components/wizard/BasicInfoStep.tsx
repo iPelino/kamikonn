@@ -1,11 +1,11 @@
-import { UseFormReturn } from 'react-hook-form';
-import { EventFormData } from './EventWizard';
+import type { UseFormReturn } from 'react-hook-form';
+import type { EventFormData } from './EventWizard';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
 import { useQuery } from '@tanstack/react-query';
-import { apiClient } from '@/api/client';
+import apiClient from '@/api/client';
 
 export function BasicInfoStep({ form }: { form: UseFormReturn<EventFormData> }) {
   const { register, watch, setValue, formState: { errors } } = form;
