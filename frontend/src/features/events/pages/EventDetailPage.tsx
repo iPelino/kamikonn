@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { CalendarIcon, MapPinIcon, ArrowLeftIcon, GlobeIcon, Share2Icon } from 'lucide-react';
 import { Loader2 } from 'lucide-react';
 import { RSVPButton } from '@/features/rsvp/components/RSVPButton';
+import { ReportEventModal } from '@/features/moderation/components/ReportEventModal';
 import { useRSVP } from '@/features/rsvp/hooks/useRSVP';
 
 export function EventDetailPage() {
@@ -144,9 +145,12 @@ export function EventDetailPage() {
                 </span>
               </div>
               <RSVPButton eventSlug={slug ?? ''} />
-              <Button variant="outline" className="w-full">
-                <Share2Icon className="mr-2 h-4 w-4" /> Share Event
-              </Button>
+              <div className="flex gap-2">
+                <Button variant="outline" className="flex-1">
+                  <Share2Icon className="mr-2 h-4 w-4" /> Share Event
+                </Button>
+                {event.id && <ReportEventModal eventId={event.id} />}
+              </div>
             </div>
           </div>
 
