@@ -99,4 +99,29 @@ class Event(TimeStampedModel):
                 slug = f"{base_slug}-{counter}"
                 counter += 1
             self.slug = slug
+
+        # Resize banner image if provided
+        if self.banner_image and not getattr(self, "_banner_resized", False):
+            import os
+            from io import BytesIO
+
+            from django.core.files.base import ContentFile
+            from PIL import Image
+
+            try:
+                img = Image.open(self.banner_image)
+                max_size = (1200, 630)
+                if img.height > max_size[1] or img.width > max_size[0]:
+                    img.thumbnail(max_size, Image.Resampling.LANCZOS)
+                    if img.mode in ("RGBA", "P"):
+                        img = img.convert("RGB")
+                    output = BytesIO()
+                    img.save(output, format="JPEG", quality=85)
+                    output.seek(0)
+                    name = os.path.splitext(self.banner_image.name)[0] + ".jpg"
+                    self.banner_image = ContentFile(output.read(), name=name)
+                    self._banner_resized = True
+            except Exception:
+                pass
+
         super().save(*args, **kwargs)

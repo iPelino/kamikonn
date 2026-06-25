@@ -78,6 +78,24 @@ class EventViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(organizer=self.request.user)
 
+    @action(detail=True, methods=["post"])
+    def submit(self, request, slug=None):
+        event = self.get_object()
+
+        if event.status != EventStatus.DRAFT:
+            return Response({"error": "Only events in DRAFT status can be submitted."}, status=400)
+
+        # Validate required fields before allowing submission
+        required_fields = ["start_time", "end_time", "location", "description"]
+        missing = [field for field in required_fields if not getattr(event, field)]
+
+        if missing:
+            return Response({"error": f"Missing required fields: {', '.join(missing)}"}, status=400)
+
+        event.status = EventStatus.PENDING
+        event.save()
+        return Response({"status": "submitted", "event": event.slug})
+
 
 class ModerationEventViewSet(viewsets.ReadOnlyModelViewSet):
     """
@@ -87,6 +105,7 @@ class ModerationEventViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = EventSerializer
     lookup_field = "slug"
     permission_classes = [permissions.IsAuthenticated, IsUniversityModerator]
+    ordering = ["-created_at"]
 
     def get_queryset(self):
         # Return pending events that belong to a university the current user moderates
