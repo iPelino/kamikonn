@@ -2,18 +2,26 @@ import { Routes, Route, Link } from 'react-router';
 import PageContainer from './components/layout/PageContainer';
 import { Button } from '@/components/ui/button';
 import { SEO } from './components/SEO';
-import LoginPage from './features/auth/pages/LoginPage';
-import RegisterPage from './features/auth/pages/RegisterPage';
-import VerifyEmailPage from './features/auth/pages/VerifyEmailPage';
-import { EventDiscoveryPage } from './features/events/pages/EventDiscoveryPage';
-import { EventDetailPage } from './features/events/pages/EventDetailPage';
-import { OrganizerProfilePage } from './features/organizers/pages/OrganizerProfilePage';
-import { OrganizerDashboardPage } from './features/organizers/pages/OrganizerDashboardPage';
-import { BecomeOrganizerPage } from './features/organizers/pages/BecomeOrganizerPage';
-import { ModerationQueuePage } from './features/moderation/pages/ModerationQueuePage';
-import { CreateEventPage } from './features/events/pages/CreateEventPage';
-import { UniversityManagementPage } from './features/universities/pages/UniversityManagementPage';
-import { MyRSVPsPage } from './features/rsvp/pages/MyRSVPsPage';
+import { lazy, Suspense } from 'react';
+
+const LoginPage = lazy(() => import('./features/auth/pages/LoginPage'));
+const RegisterPage = lazy(() => import('./features/auth/pages/RegisterPage'));
+const VerifyEmailPage = lazy(() => import('./features/auth/pages/VerifyEmailPage'));
+const EventDiscoveryPage = lazy(() => import('./features/events/pages/EventDiscoveryPage').then(module => ({ default: module.EventDiscoveryPage })));
+const EventDetailPage = lazy(() => import('./features/events/pages/EventDetailPage').then(module => ({ default: module.EventDetailPage })));
+const OrganizerProfilePage = lazy(() => import('./features/organizers/pages/OrganizerProfilePage').then(module => ({ default: module.OrganizerProfilePage })));
+const OrganizerDashboardPage = lazy(() => import('./features/organizers/pages/OrganizerDashboardPage').then(module => ({ default: module.OrganizerDashboardPage })));
+const BecomeOrganizerPage = lazy(() => import('./features/organizers/pages/BecomeOrganizerPage').then(module => ({ default: module.BecomeOrganizerPage })));
+const ModerationQueuePage = lazy(() => import('./features/moderation/pages/ModerationQueuePage').then(module => ({ default: module.ModerationQueuePage })));
+const CreateEventPage = lazy(() => import('./features/events/pages/CreateEventPage').then(module => ({ default: module.CreateEventPage })));
+const UniversityManagementPage = lazy(() => import('./features/universities/pages/UniversityManagementPage').then(module => ({ default: module.UniversityManagementPage })));
+const MyRSVPsPage = lazy(() => import('./features/rsvp/pages/MyRSVPsPage').then(module => ({ default: module.MyRSVPsPage })));
+
+const PageLoader = () => (
+  <div className="flex h-[50vh] items-center justify-center">
+    <div className="h-8 w-8 animate-spin rounded-full border-4 border-forest border-t-transparent"></div>
+  </div>
+);
 
 // Placeholder Home component
 function Home() {
@@ -49,21 +57,23 @@ function App() {
   return (
     <PageContainer>
       <SEO />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/verify-email/:key" element={<VerifyEmailPage />} />
-        <Route path="/events" element={<EventDiscoveryPage />} />
-        <Route path="/events/create" element={<CreateEventPage />} />
-        <Route path="/events/:slug" element={<EventDetailPage />} />
-        <Route path="/organizer/become" element={<BecomeOrganizerPage />} />
-        <Route path="/organizer/dashboard" element={<OrganizerDashboardPage />} />
-        <Route path="/organizer/:id" element={<OrganizerProfilePage />} />
-        <Route path="/moderation/queue" element={<ModerationQueuePage />} />
-        <Route path="/admin/universities" element={<UniversityManagementPage />} />
-        <Route path="/my-rsvps" element={<MyRSVPsPage />} />
-      </Routes>
+      <Suspense fallback={<PageLoader />}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/verify-email/:key" element={<VerifyEmailPage />} />
+          <Route path="/events" element={<EventDiscoveryPage />} />
+          <Route path="/events/create" element={<CreateEventPage />} />
+          <Route path="/events/:slug" element={<EventDetailPage />} />
+          <Route path="/organizer/become" element={<BecomeOrganizerPage />} />
+          <Route path="/organizer/dashboard" element={<OrganizerDashboardPage />} />
+          <Route path="/organizer/:id" element={<OrganizerProfilePage />} />
+          <Route path="/moderation/queue" element={<ModerationQueuePage />} />
+          <Route path="/admin/universities" element={<UniversityManagementPage />} />
+          <Route path="/my-rsvps" element={<MyRSVPsPage />} />
+        </Routes>
+      </Suspense>
     </PageContainer>
   );
 }
