@@ -37,12 +37,9 @@ AWS_STORAGE_BUCKET_NAME = config("DO_SPACES_BUCKET_NAME", default="")
 AWS_S3_ENDPOINT_URL = config("DO_SPACES_ENDPOINT_URL", default="")
 AWS_S3_REGION_NAME = config("DO_SPACES_REGION", default="fra1")
 AWS_S3_OBJECT_PARAMETERS = {"CacheControl": "max-age=86400"}
-AWS_LOCATION = "media"  # optional, if media files should be in a subfolder
-AWS_DEFAULT_ACL = "public-read"
-
 STORAGES = {
-    "default": {"BACKEND": "storages.backends.s3boto3.S3Boto3Storage"},
-    "staticfiles": {"BACKEND": "storages.backends.s3boto3.S3Boto3Storage"},
+    "default": {"BACKEND": "kamikonn.storage_backends.PublicMediaStorage"},
+    "staticfiles": {"BACKEND": "kamikonn.storage_backends.StaticStorage"},
 }
 
 # Email
