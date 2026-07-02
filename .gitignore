@@ -41,3 +41,10 @@ pnpm-debug.log*
 # Project Specific
 backend/media/
 backend/staticfiles/
+
+# Terraform
+**/.terraform/
+*.tfstate
+*.tfstate.*
+terraform.tfvars
+*.auto.tfvars

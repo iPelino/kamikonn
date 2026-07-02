@@ -1,4 +1,4 @@
-.PHONY: dev build migrate shell seed test lint format backend-shell setup
+.PHONY: dev build migrate shell seed test lint format backend-shell setup terraform-init terraform-plan terraform-apply terraform-show
 
 # Setup
 setup:
@@ -54,3 +54,18 @@ lint:
 format:
 	cd backend && uv run ruff format .
 	cd frontend && pnpm prettier --write .
+
+## Infrastructure
+terraform-init: ## Initialize Terraform (run once, pass Spaces keys as env vars)
+	cd infra && terraform init \
+		-backend-config="access_key=$${SPACES_ACCESS_KEY}" \
+		-backend-config="secret_key=$${SPACES_SECRET_KEY}"
+
+terraform-plan: ## Preview infrastructure changes
+	cd infra && terraform plan
+
+terraform-apply: ## Apply infrastructure changes
+	cd infra && terraform apply
+
+terraform-show: ## Show current Terraform state
+	cd infra && terraform show
