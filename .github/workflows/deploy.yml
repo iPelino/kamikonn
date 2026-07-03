@@ -1,0 +1,55 @@
+name: Deploy to Production
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Target environment'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+          - production
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.DROPLET_HOST }}
+          username: ${{ secrets.DROPLET_USER }}
+          key: ${{ secrets.DROPLET_SSH_KEY }}
+          script: |
+            set -e
+            cd /opt/kamikonn
+
+            echo "Pulling latest code from main..."
+            git pull origin main
+
+            echo "Building containers..."
+            docker compose -f docker-compose.prod.yml build --no-cache
+
+            echo "Bringing services up..."
+            docker compose -f docker-compose.prod.yml up -d
+
+            echo "Running migrations..."
+            docker compose -f docker-compose.prod.yml exec -T backend \
+              uv run python manage.py migrate --no-input
+
+            echo "Collecting static files..."
+            docker compose -f docker-compose.prod.yml exec -T backend \
+              uv run python manage.py collectstatic --no-input
+
+            echo "Health check..."
+            sleep 10
+            curl -f https://kamikonn.rw/api/health/ || (echo "Health check failed!" && exit 1)
+
+            echo "Deployment complete."

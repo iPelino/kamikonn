@@ -16,6 +16,11 @@ const ModerationQueuePage = lazy(() => import('./features/moderation/pages/Moder
 const CreateEventPage = lazy(() => import('./features/events/pages/CreateEventPage').then(module => ({ default: module.CreateEventPage })));
 const UniversityManagementPage = lazy(() => import('./features/universities/pages/UniversityManagementPage').then(module => ({ default: module.UniversityManagementPage })));
 const MyRSVPsPage = lazy(() => import('./features/rsvp/pages/MyRSVPsPage').then(module => ({ default: module.MyRSVPsPage })));
+const UserDashboardPage = lazy(() => import('./features/user/pages/UserDashboardPage'));
+const SavedEventsPage = lazy(() => import('./features/user/pages/SavedEventsPage'));
+const AdminDashboardPage = lazy(() => import('./features/admin/pages/AdminDashboardPage'));
+const NotificationPreferencesPage = lazy(() => import('./features/user/pages/NotificationPreferencesPage'));
+const UniversityProfilePage = lazy(() => import('./features/universities/pages/UniversityProfilePage'));
 
 const PageLoader = () => (
   <div className="flex h-[50vh] items-center justify-center">
@@ -72,6 +77,11 @@ function App() {
           <Route path="/moderation/queue" element={<ModerationQueuePage />} />
           <Route path="/admin/universities" element={<UniversityManagementPage />} />
           <Route path="/my-rsvps" element={<MyRSVPsPage />} />
+          <Route path="/dashboard" element={<UserDashboardPage />} />
+          <Route path="/saved-events" element={<SavedEventsPage />} />
+          <Route path="/admin" element={<AdminDashboardPage />} />
+          <Route path="/notifications/preferences" element={<NotificationPreferencesPage />} />
+          <Route path="/universities/:slug" element={<UniversityProfilePage />} />
         </Routes>
       </Suspense>
     </PageContainer>
