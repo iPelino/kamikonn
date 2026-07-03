@@ -2,9 +2,11 @@ import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router';
 import { useEvents, useCategories } from '../hooks/useEvents';
 import { EventCard } from '../components/EventCard';
+import { EventGridSkeleton } from '@/components/skeletons/EventSkeletons';
 import { useDebounce } from '@/hooks/useDebounce';
 import { Input } from '@/components/ui/input';
-import { SearchIcon, SlidersHorizontal, Loader2 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { SearchIcon, SlidersHorizontal, SearchX } from 'lucide-react';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -43,17 +45,19 @@ export function EventDiscoveryPage() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    // No container mx-auto here — PageContainer already constrains to max-w-7xl
+    <div className="py-6">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
         <h1 className="text-3xl font-bold tracking-tight">Discover Events</h1>
 
         <div className="relative w-full md:w-96">
-          <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" aria-hidden="true" />
           <Input
             placeholder="Search events by title, description..."
             className="pl-9"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
+            aria-label="Search events"
           />
         </div>
       </div>
@@ -62,7 +66,7 @@ export function EventDiscoveryPage() {
         {/* Filter Sidebar */}
         <aside className="w-full md:w-64 shrink-0 space-y-6">
           <div className="flex items-center gap-2 font-semibold pb-2 border-b">
-            <SlidersHorizontal className="h-4 w-4" />
+            <SlidersHorizontal className="h-4 w-4" aria-hidden="true" />
             <h2>Filters</h2>
           </div>
 
@@ -121,18 +125,31 @@ export function EventDiscoveryPage() {
         </aside>
 
         {/* Main Feed */}
-        <main className="flex-1">
+        <section className="flex-1" aria-label="Event results" aria-live="polite">
           {isLoading ? (
-            <div className="flex justify-center items-center h-64">
-              <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            </div>
+            <EventGridSkeleton count={6} />
           ) : isError ? (
             <div className="text-center text-destructive py-12">
               Failed to load events. Please try again later.
             </div>
           ) : !eventsData || eventsData.results.length === 0 ? (
-            <div className="text-center text-muted-foreground py-12 bg-muted/30 rounded-lg border border-dashed">
-              No events found matching your criteria.
+            <div className="flex flex-col items-center justify-center py-20 text-center rounded-xl border border-dashed bg-muted/30 gap-4">
+              <SearchX className="h-10 w-10 text-muted-foreground" aria-hidden="true" />
+              <div>
+                <p className="font-semibold text-foreground">No events found</p>
+                <p className="text-sm text-muted-foreground mt-1">Try adjusting your search or filters.</p>
+              </div>
+              <Button
+                variant="outline"
+                size="sm"
+                className="cursor-pointer"
+                onClick={() => {
+                  setSearchTerm('');
+                  setSearchParams(new URLSearchParams());
+                }}
+              >
+                Clear all filters
+              </Button>
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -141,7 +158,7 @@ export function EventDiscoveryPage() {
               ))}
             </div>
           )}
-        </main>
+        </section>
       </div>
     </div>
   );
