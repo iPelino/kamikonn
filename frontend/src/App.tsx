@@ -1,77 +1,97 @@
-import { Routes, Route, Link } from 'react-router';
+import { Routes, Route } from 'react-router';
 import PageContainer from './components/layout/PageContainer';
-import { Button } from '@/components/ui/button';
 import { SEO } from './components/SEO';
 import { lazy, Suspense } from 'react';
+import { PageSkeleton } from './components/skeletons/EventSkeletons';
 
+// Auth pages
 const LoginPage = lazy(() => import('./features/auth/pages/LoginPage'));
 const RegisterPage = lazy(() => import('./features/auth/pages/RegisterPage'));
 const VerifyEmailPage = lazy(() => import('./features/auth/pages/VerifyEmailPage'));
-const EventDiscoveryPage = lazy(() => import('./features/events/pages/EventDiscoveryPage').then(module => ({ default: module.EventDiscoveryPage })));
-const EventDetailPage = lazy(() => import('./features/events/pages/EventDetailPage').then(module => ({ default: module.EventDetailPage })));
-const OrganizerProfilePage = lazy(() => import('./features/organizers/pages/OrganizerProfilePage').then(module => ({ default: module.OrganizerProfilePage })));
-const OrganizerDashboardPage = lazy(() => import('./features/organizers/pages/OrganizerDashboardPage').then(module => ({ default: module.OrganizerDashboardPage })));
-const BecomeOrganizerPage = lazy(() => import('./features/organizers/pages/BecomeOrganizerPage').then(module => ({ default: module.BecomeOrganizerPage })));
-const ModerationQueuePage = lazy(() => import('./features/moderation/pages/ModerationQueuePage').then(module => ({ default: module.ModerationQueuePage })));
-const CreateEventPage = lazy(() => import('./features/events/pages/CreateEventPage').then(module => ({ default: module.CreateEventPage })));
-const UniversityManagementPage = lazy(() => import('./features/universities/pages/UniversityManagementPage').then(module => ({ default: module.UniversityManagementPage })));
-const MyRSVPsPage = lazy(() => import('./features/rsvp/pages/MyRSVPsPage').then(module => ({ default: module.MyRSVPsPage })));
 
-const PageLoader = () => (
-  <div className="flex h-[50vh] items-center justify-center">
-    <div className="h-8 w-8 animate-spin rounded-full border-4 border-forest border-t-transparent"></div>
-  </div>
+// Event pages
+const EventDiscoveryPage = lazy(() =>
+  import('./features/events/pages/EventDiscoveryPage').then((m) => ({ default: m.EventDiscoveryPage })),
+);
+const EventDetailPage = lazy(() =>
+  import('./features/events/pages/EventDetailPage').then((m) => ({ default: m.EventDetailPage })),
+);
+const CreateEventPage = lazy(() =>
+  import('./features/events/pages/CreateEventPage').then((m) => ({ default: m.CreateEventPage })),
 );
 
-// Placeholder Home component
-function Home() {
-  return (
-    <div className="flex flex-col items-center justify-center py-20 text-center">
-      <SEO title="Home" />
-      <h1 className="mb-6 font-heading text-4xl font-bold md:text-6xl">
-        Discover Academic Events Across <span className="text-forest">Rwanda</span>
-      </h1>
-      <p className="mb-8 max-w-2xl text-lg text-charcoal/80">
-        The central hub for academic seminars, hackathons, and workshops across Kigali's universities.
-      </p>
-      <div className="flex gap-4">
-        <Link to="/events">
-          <Button className="bg-amber text-forest hover:bg-amber/90" size="lg">Explore Events</Button>
-        </Link>
-        <Link to="/events/create">
-          <Button variant="outline" className="border-forest text-forest hover:bg-forest/5" size="lg">
-            Create Event
-          </Button>
-        </Link>
-        <Link to="/organizer/become">
-          <Button variant="outline" className="border-forest text-forest hover:bg-forest/5" size="lg">
-            Become an Organizer
-          </Button>
-        </Link>
-      </div>
-    </div>
-  );
-}
+// Organizer pages
+const OrganizerProfilePage = lazy(() =>
+  import('./features/organizers/pages/OrganizerProfilePage').then((m) => ({ default: m.OrganizerProfilePage })),
+);
+const OrganizerDashboardPage = lazy(() =>
+  import('./features/organizers/pages/OrganizerDashboardPage').then((m) => ({ default: m.OrganizerDashboardPage })),
+);
+const BecomeOrganizerPage = lazy(() =>
+  import('./features/organizers/pages/BecomeOrganizerPage').then((m) => ({ default: m.BecomeOrganizerPage })),
+);
+
+// Moderation + admin
+const ModerationQueuePage = lazy(() =>
+  import('./features/moderation/pages/ModerationQueuePage').then((m) => ({ default: m.ModerationQueuePage })),
+);
+const UniversityManagementPage = lazy(() =>
+  import('./features/universities/pages/UniversityManagementPage').then((m) => ({ default: m.UniversityManagementPage })),
+);
+
+// User pages
+const MyRSVPsPage = lazy(() =>
+  import('./features/rsvp/pages/MyRSVPsPage').then((m) => ({ default: m.MyRSVPsPage })),
+);
+
+// New pages added in UX sprint
+const LandingPage = lazy(() =>
+  import('./features/home/LandingPage').then((m) => ({ default: m.LandingPage })),
+);
+const UserDashboardPage = lazy(() => import('./features/user/pages/UserDashboardPage'));
+const SavedEventsPage = lazy(() => import('./features/user/pages/SavedEventsPage'));
+const AdminDashboardPage = lazy(() => import('./features/admin/pages/AdminDashboardPage'));
+const NotificationPreferencesPage = lazy(() => import('./features/user/pages/NotificationPreferencesPage'));
+const UniversityProfilePage = lazy(() => import('./features/universities/pages/UniversityProfilePage'));
 
 function App() {
   return (
     <PageContainer>
       <SEO />
-      <Suspense fallback={<PageLoader />}>
+      {/* PageSkeleton mirrors the content layout — no blank/spinner flash */}
+      <Suspense fallback={<PageSkeleton />}>
         <Routes>
-          <Route path="/" element={<Home />} />
+          {/* Home */}
+          <Route path="/" element={<LandingPage />} />
+
+          {/* Auth */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/verify-email/:key" element={<VerifyEmailPage />} />
+
+          {/* Events */}
           <Route path="/events" element={<EventDiscoveryPage />} />
           <Route path="/events/create" element={<CreateEventPage />} />
           <Route path="/events/:slug" element={<EventDetailPage />} />
+
+          {/* Organizer */}
           <Route path="/organizer/become" element={<BecomeOrganizerPage />} />
           <Route path="/organizer/dashboard" element={<OrganizerDashboardPage />} />
           <Route path="/organizer/:id" element={<OrganizerProfilePage />} />
+
+          {/* Moderation + admin */}
           <Route path="/moderation/queue" element={<ModerationQueuePage />} />
+          <Route path="/admin" element={<AdminDashboardPage />} />
           <Route path="/admin/universities" element={<UniversityManagementPage />} />
+
+          {/* User account */}
           <Route path="/my-rsvps" element={<MyRSVPsPage />} />
+          <Route path="/dashboard" element={<UserDashboardPage />} />
+          <Route path="/saved-events" element={<SavedEventsPage />} />
+          <Route path="/notifications/preferences" element={<NotificationPreferencesPage />} />
+
+          {/* Universities */}
+          <Route path="/universities/:slug" element={<UniversityProfilePage />} />
         </Routes>
       </Suspense>
     </PageContainer>
