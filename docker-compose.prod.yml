@@ -54,6 +54,21 @@ services:
         condition: service_started
     restart: unless-stopped
 
+  celery-beat:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.prod
+    container_name: kamikonn_celery_beat_prod
+    command: uv run celery -A kamikonn beat -l info
+    env_file:
+      - .env.prod
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    restart: unless-stopped
+
   nginx:
     build:
       context: .

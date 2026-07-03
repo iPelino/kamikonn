@@ -83,7 +83,7 @@ class RSVPViewSet(viewsets.GenericViewSet):
         serializer = self.get_serializer(rsvp)
 
         # Trigger async email notification
-        send_rsvp_confirmation_email.delay(request.user.id, locked_event.title, rsvp_status)
+        send_rsvp_confirmation_email.delay(request.user.id, locked_event.pk, rsvp_status)
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
@@ -132,7 +132,7 @@ class RSVPViewSet(viewsets.GenericViewSet):
 
                     # Notify promoted user
                     send_rsvp_confirmation_email.delay(
-                        next_in_line.user.id, locked_event.title, "ATTENDING"
+                        next_in_line.user.id, locked_event.pk, "ATTENDING"
                     )
 
         return Response(status=status.HTTP_204_NO_CONTENT)
