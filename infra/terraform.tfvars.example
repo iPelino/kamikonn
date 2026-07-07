@@ -1,0 +1,10 @@
+# Copy this file to terraform.tfvars and fill in your values
+# NEVER commit terraform.tfvars to git
+
+do_token             = "dop_v1_your_token_here"
+ssh_key_fingerprint  = "xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx"
+spaces_access_key    = "your_spaces_access_key"
+spaces_secret_key    = "your_spaces_secret_key"  # pragma: allowlist secret
+region               = "ams3"
+droplet_size         = "s-2vcpu-4gb"
+domain_name          = "kamikonn.rw"

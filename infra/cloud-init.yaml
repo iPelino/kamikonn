@@ -1,0 +1,48 @@
+#cloud-config
+
+packages:
+  - apt-transport-https
+  - ca-certificates
+  - curl
+  - gnupg
+  - lsb-release
+  - git
+  - ufw
+  - fail2ban
+  - unattended-upgrades
+
+package_update: true
+package_upgrade: true
+
+runcmd:
+  # Install Docker
+  - curl -fsSL https://get.docker.com | sh
+  - systemctl enable docker
+  - systemctl start docker
+
+  # Install Docker Compose v2 plugin
+  - curl -SL https://github.com/docker/compose/releases/latest/download/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose
+  - chmod +x /usr/local/bin/docker-compose
+
+  # Create deploy user
+  - useradd -m -s /bin/bash deploy
+  - usermod -aG docker deploy
+  - mkdir -p /home/deploy/.ssh
+  - cp /root/.ssh/authorized_keys /home/deploy/.ssh/
+  - chown -R deploy:deploy /home/deploy/.ssh
+  - chmod 700 /home/deploy/.ssh
+  - chmod 600 /home/deploy/.ssh/authorized_keys
+
+  # Clone repository
+  - git clone https://github.com/iPelino/kamikonn.git /opt/kamikonn
+  - chown -R deploy:deploy /opt/kamikonn
+
+  # Firewall
+  - ufw default deny incoming
+  - ufw default allow outgoing
+  - ufw allow 22/tcp
+  - ufw allow 80/tcp
+  - ufw allow 443/tcp
+  - ufw --force enable
+
+final_message: "KamiKonn server ready. SSH as deploy@<ip>. Next: configure /opt/kamikonn/.env.prod and run docker compose."

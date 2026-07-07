@@ -27,6 +27,7 @@ class Command(BaseCommand):
         admin, created = User.objects.get_or_create(
             email="admin@kamikonn.com",
             defaults={
+                "username": "admin",
                 "first_name": "Kami",
                 "last_name": "Admin",
                 "is_staff": True,
@@ -47,6 +48,7 @@ class Command(BaseCommand):
         organizer, created = User.objects.get_or_create(
             email="organizer@kamikonn.com",
             defaults={
+                "username": "organizer",
                 "first_name": "Demo",
                 "last_name": "Organizer",
             },
