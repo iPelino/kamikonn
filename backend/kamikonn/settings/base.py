@@ -172,7 +172,7 @@ REST_AUTH = {
 
 ACCOUNT_LOGIN_METHODS = {"email"}
 ACCOUNT_SIGNUP_FIELDS = ["email*", "password1*", "password2*"]
-ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_USER_MODEL_USERNAME_FIELD = "username"
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 3
@@ -183,8 +183,8 @@ SOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True
 SOCIALACCOUNT_PROVIDERS = {
     "google": {
         "APP": {
-            "client_id": config("GOOGLE_OAUTH_CLIENT_ID", default=""),
-            "secret": config("GOOGLE_OAUTH_CLIENT_SECRET", default=""),
+            "client_id": config("GOOGLE_CLIENT_ID", default=""),
+            "secret": config("GOOGLE_CLIENT_SECRET", default=""),
             "key": "",
         },
         "SCOPE": [
@@ -206,3 +206,6 @@ SIMPLE_JWT = {
     "BLACKLIST_AFTER_ROTATION": True,
     "AUTH_HEADER_TYPES": ("Bearer",),
 }
+
+# Frontend URL for email links
+FRONTEND_URL = config("FRONTEND_URL", default="https://kamikonn.rw")
