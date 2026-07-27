@@ -44,7 +44,7 @@
     "@types/node": "^24.13.2",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
-    "@vitejs/plugin-react": "^6.0.2",
+    "@vitejs/plugin-react": "^6.0.4",
     "jsdom": "^29.1.1",
     "oxlint": "^1.69.0",
     "playwright": "^1.61.1",
@@ -52,10 +52,10 @@
     "svgo": "^4.0.1",
     "tailwindcss": "^4.3.1",
     "typescript": "~6.0.2",
-    "vite": "^8.1.0",
+    "vite": "^8.1.5",
     "vite-plugin-image-optimizer": "^2.0.3",
     "vite-plugin-pwa": "^1.3.0",
-    "vitest": "^4.1.9"
+    "vitest": "^4.1.10"
   },
   "packageManager": "pnpm@10.32.1+sha512.a706938f0e89ac1456b6563eab4edf1d1faf3368d1191fc5c59790e96dc918e4456ab2e67d613de1043d2e8c81f87303e6b40d4ffeca9df15ef1ad567348f2be"
 }
